@@ -87,7 +87,7 @@ function storeImages($username, $files)
       $source       = $item["tmp_name"];
       
       $thumb = new Imagick($source);
-      list($newX, $newY) = scaleImage($thumb->getImageWidth(), $thumb->getImageHeight(), 100, 150);
+      list($newX, $newY) = scaleImage($thumb->getImageWidth(), $thumb->getImageHeight(), 200, 200);
       $thumb->thumbnailImage($newX, $newY);
       $thumb->writeImage($thumb_target);
       $thumb->clear();
