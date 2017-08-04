@@ -15,7 +15,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 -->
- 
+
 <!doctype html>
 <html>
 <head>
@@ -133,12 +133,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 if (!empty($_POST)) {
   require('config.php');
   require('upload.php');
+  require('bot.php');
   $json = storeImages($_POST['username'], $_FILES);
   print "<dialog class=\"mdl-dialog\" id=\"codeDialog\">\n";
   print "      <h4 class=\"mdl-dialog__title\">Output</h4>\n";
   print "      <div class=\"mdl-dialog__content\">\n";
   print "        <pre>\n";
   echo json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+  $response = uploadPaste($pasteAPI, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+  sendMessage($chatid, "Someone uploaded some images for YAWPA " . $response, $token);
   print "        </pre>\n";
   print "      </div>\n";
   print "      <div class=\"mdl-dialog__actions\">\n";

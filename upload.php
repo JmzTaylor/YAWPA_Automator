@@ -19,18 +19,18 @@ function randomString($length)
 {
   $key  = '';
   $keys = array_merge(range(0, 9), range('a', 'z'));
-  
+
   for ($i = 0; $i < $length; $i++) {
     $key .= $keys[array_rand($keys)];
   }
-  
+
   return $key;
 }
 
 function compressImage($src, $dest)
 {
   $info = getimagesize($src);
-  
+
   if ($info['mime'] == 'image/jpeg') {
     $image = imagecreatefromjpeg($src);
     imagejpeg($image, $dest, 60);
@@ -85,14 +85,14 @@ function storeImages($username, $files)
       $thumb_target = $imgFolder . $randString . '_thumb.' . $ext;
       $target       = $imgFolder . $randString . '.' . $ext;
       $source       = $item["tmp_name"];
-      
+
       $thumb = new Imagick($source);
       list($newX, $newY) = scaleImage($thumb->getImageWidth(), $thumb->getImageHeight(), 800, 800);
       $thumb->thumbnailImage($newX, $newY);
       $thumb->writeImage($thumb_target);
       $thumb->clear();
       compressImage($source, $target);
-      
+
       $json[$username][] = array(
         'url' => $siteLink . $target,
         'thumb' => $siteLink . $thumb_target
@@ -100,5 +100,25 @@ function storeImages($username, $files)
     }
   }
   return $json;
+}
+function uploadPaste($pasteAPI, $text3)
+{
+  $api_paste_private 		= '0';
+  $api_paste_name		= 'yawpa';
+  $api_paste_expire_date 	= '10M';
+  $api_paste_format 		= 'json';
+  $api_user_key 		= '';
+  $api_paste_name		= urlencode($api_paste_name);
+  $api_paste_code		= urlencode($api_paste_code);
+  $url 				= 'https://pastebin.com/api/api_post.php';
+  $ch 				= curl_init($url);
+
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, 'api_option=paste&api_user_key='.$api_user_key.'&api_paste_private='.$api_paste_private.'&api_paste_name='.$api_paste_name.'&api_paste_expire_date='.$api_paste_expire_date.'&api_paste_format='.$api_paste_format.'&api_dev_key='.$pasteAPI.'&api_paste_code='.$text3.'');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_VERBOSE, 1);
+  curl_setopt($ch, CURLOPT_NOBODY, 0);
+  $response  			= curl_exec($ch);
+  return $response;
 }
 ?>
