@@ -105,7 +105,7 @@ function uploadPaste($pasteAPI, $text3)
 {
   $api_paste_private 		= '0';
   $api_paste_name		= 'yawpa';
-  $api_paste_expire_date 	= '10M';
+  $api_paste_expire_date 	= '1Y';
   $api_paste_format 		= 'json';
   $api_user_key 		= '';
   $api_paste_name		= urlencode($api_paste_name);
